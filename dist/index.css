@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Comforter&family=Dongle:wght@300;400;700&family=Mochiy+Pop+P+One&family=Open+Sans:wght@300;400;700&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,700;1,300;1,500;1,700&family=Varela+Round&display=swap');
+
+.body{
+    background-color: #111;
+}
+
+.background_first{
+    background: rgba(39, 39, 39, 0.897) url("https://cdn.pixabay.com/photo/2021/10/12/01/06/guitar-6702089_1280.jpg");
+    background-size: cover;
+    background-blend-mode: darken;
+}
+
+.navbar-brand img{
+    width: 3rem;
+    height: 3rem;
+    margin-right: 0.3rem;
+}
+
+.navbar-brand{
+    font-family: 'Mochiy Pop P One', sans-serif;
+    color: white !important;
+    font-size: 1.7rem;
+    justify-content: space-evenly;
+}
+
+.navbar-light{
+    background-color: #111 !important;
+}
+
+.navi{
+    font-family: 'Dongle', sans-serif;
+    font-size: 25px;
+    color: rgb(177, 174, 174) !important;
+}
+
+.losi{
+    right:20px;
+    align-items: flex-start;
+    flex-direction: row !important;
+}
+
+.hovi:hover{
+    color: white !important;
+}
+.rgbi{
+    color: rgb(177, 174, 174) !important;
+}
+.nav-item{
+    margin: 0 5px;
+}
+
+.btn-outline-warning:hover{
+    background-color: green;
+    color: black !important;
+}
+
+.mainbox{
+    display: flex !important;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+}
+
+.pad{
+    padding: 12px 12px;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    color: white;
+}
+
+@media screen and (min-width: 992px){
+
+    .losi{
+        position: absolute;
+    }
+}
+
+
+
