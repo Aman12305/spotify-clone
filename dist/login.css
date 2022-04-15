@@ -23,6 +23,7 @@ body{
     margin: 10px 10px;
     font-family: "ubuntu", sans-serif;
     font-size: 15px;
+    cursor: pointer;
 }
 
 input{
@@ -51,6 +52,10 @@ label{
 
 .bt-hover:hover .button-p{
     background-color: rgb(53, 179, 53);
+}
+
+.forgotform{
+    display: none;
 }
 
 a{
@@ -86,4 +91,8 @@ a{
     height: 375px;
     background-position: center;
     background-size: cover;
+  }
+
+  .signform{
+      display: none;
   }

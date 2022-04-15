@@ -1,25 +1,33 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+// const express = require('express');
+// const app = express();
+// const port = 3000;
 
-const lo = require('./song');
+// const {array} = require('./song');
 
-lo.choose('5e9f9f8f2c9d440000d8f8f8');
+// array.push(5);
 
-console.log(lo.task);
+// console.log(array);
+
+// exports.choose = (id) => {
+//     console.log(id);
+// }
 
 
-// console.log(task.data);
 
-app.use(express.json());
+
+
+
+// // console.log(task.data);
+
+// app.use(express.json());
   
-// For parsing application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+// // For parsing application/x-www-form-urlencoded
+// app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+// app.get('/', (req, res) => {
+//     res.send('Hello World!');
+// });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-  })
+// app.listen(port, () => {
+//     console.log(`Example app listening on port ${port}`);
+//   })

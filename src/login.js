@@ -12,8 +12,8 @@ import {
 
 import {
     getAuth,onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signOut,signInWithEmailAndPassword
+    createUserWithEmailAndPassword,sendPasswordResetEmail,
+    signOut,signInWithEmailAndPassword,sendEmailVerification
 
 } from 'firebase/auth';
 
@@ -21,6 +21,7 @@ import { getStorage,ref,getMetadata,listAll,list, getDownloadURL } from "firebas
  
 const firebaseConfig = {
     apiKey: "AIzaSyAk0N0MBNyOvMy9mcWx9PBn25FZFY_hWj4",
+    databaseURL: "https://musix-c3842-default-rtdb.asia-southeast1.firebasedatabase.app",
     authDomain: "musix-c3842.firebaseapp.com",
     projectId: "musix-c3842",
     storageBucket: "musix-c3842.appspot.com",
@@ -43,6 +44,8 @@ const firebaseConfig = {
   //collection ref
 
   const colRef = collection(db, 'Music');
+
+ 
 
 
   //get collection data
@@ -70,72 +73,62 @@ const q = query(colRef, where('category', '==', 'Top Hits Hindi'));
 
 //real time data collection
 
-onSnapshot(colRef,(data)=>{
-    let user = [];
-    // user = [];
+// onSnapshot(colRef,(data)=>{
+//     let user = [];
+//     // user = [];
 
-    data.docs.forEach(doc => {
-        // deleteDoc(colRef,doc.id);
+//     data.docs.forEach(doc => {
+//         // deleteDoc(colRef,doc.id);
     
-            user.push({...doc.data(), id: doc.id});
-    })
+//             user.push({...doc.data(), id: doc.id});
+//     })
 
-    console.log(user);
+//     console.log(user);
 
-})
+// })
 
-
-let signform = document.querySelector('#signform');
-let signbut = document.getElementById('signup');
+let signform = document.getElementById('signform');
+let signup = document.getElementById('signup');
 let loginform = document.getElementById('loginform');
 let forgot = document.getElementById('forgot');
 let logform = document.querySelector('.hidd');
-
-// signbut.addEventListener('click',()=>{
-
-//     if(signform.style.display == 'none'){
-//         logform.style.display = 'none';
-//         signform.style.display = 'block';
-//     }
-//     console.log("click");
-    
-//     // forgot.style.display = 'none';
-// })
+let forgotform = document.getElementById('forgotform');
 
 
-console.log(signbut);
+
+//forgot password
 
 
-// exports.logout = () => {
-//     signOut(auth).then(()=>{
-//         console.log("logout");
-//     }).catch(err=>{
-//         console.log(err.message);
-//     })
-// }
+forgot.addEventListener('click',()=>{
+    loginform.style.display = 'none';
+    forgotform.style.display = 'block';
+});
 
-// const logout = document.getElementById('logout');
+forgotform.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    let email = forgotform.email.value;
+    sendPasswordResetEmail(auth, email).then(()=>{
+        alert('Password reset email sent');
+        forgotform.style.display = 'none';
+        loginform.style.display = 'block';
+    }).catch(err=>{
+        alert(err.message);
+    })
 
-// console.log(logout);
+});
 
-// logout.addEventListener('click',()=>{
 
-//     signOut(auth)
-//     .then(()=>{
-//         console.log('logout');
-//         window.location.href = '../dist/index.html';
-//     })
-//     .catch(err => {
-//         console.log(err.message);
-//     });
+signup.addEventListener('click',()=>{
 
-// });
+        logform.style.display = 'none';
+        signform.style.display = 'block';
+})
 
 
 onAuthStateChanged(auth,(user)=>{
     if(user)
     {
-        console.log(user.email);
+        console.log(user.email,user.uid);
     }
     else
     {
@@ -153,17 +146,22 @@ loginform.addEventListener('submit',(e)=>{
 
     signInWithEmailAndPassword(auth, email, pass)
     .then(cred => {
-        console.log(cred);
         loginform.reset();
+        console.log(cred.user.email);
+
+        // if(cred.user.emailVerified)
         window.location.href = '../dist/player.html';
     })
     .catch(err => {
-        console.log(err.message);
+        // console.log(err.message);
+        loginform.reset();
+        alert(`${err.message}`);
+        
     })
 
 });
 
-console.log(signform);
+// console.log(signform);
 
 signform.addEventListener('submit',(e)=>{
 
@@ -174,13 +172,20 @@ signform.addEventListener('submit',(e)=>{
 
     createUserWithEmailAndPassword(auth,email,password,)
     .then(cred => {
-        console.log(cred.user);
+        alert(` Welcome to Spotify You have to login to continue`);
+        //  //send verification email
+        // sendEmailVerification(auth.currentUser)
+        // .then(() => {
+        //     console.log('email sent'); 
+        // });
         signform.reset();
-    });
+        signform.style.display = 'none';
+        logform.style.display = 'block';
+    })
 })
-
 .catch(err => {
-    console.log(err.message);
+    alert(`${err.message}`);
+    signform.reset();
 });
 
 
@@ -196,7 +201,7 @@ signform.addEventListener('submit',(e)=>{
 
 
 // Create a reference under which you want to list
-// const listRef = ref(storage, 'Artist/Top_Hits_Hindi');
+// const listRef = ref(storage, 'Artist/Sonu Nigam');
 
 // console.log(listRef);
 
@@ -229,21 +234,21 @@ signform.addEventListener('submit',(e)=>{
 //                     let cat,cat1,gifcat,gifcat1;
 //                     if(i%2)
 //                     {
-//                         cat = "Top Hits Hindi";
+//                         cat = "Sonu Nigam Hits";
 //                         if(i%4)
 //                         {
-//                             cat1 = "Party Songs";
+//                             cat1 = "Stolen Heart";
 //                         }
 //                         else
 //                         {
 //                             cat1 = "Mix";
 //                         }
-//                         gifcat="Bhangra";
-//                         gifcat1="dance";
+//                         gifcat="stolen Heart";
+//                         gifcat1="emotional";
 //                     }
 //                     else
 //                     {
-//                         cat = "Top Hits Hindi";
+//                         cat = "Romantic Hits";
                         
 //                         if(i%3)
 //                         {
@@ -255,7 +260,7 @@ signform.addEventListener('submit',(e)=>{
 //                         }   
 
 //                         gifcat="Happy"; 
-//                         gifcat1="Hip-Hop";
+//                         gifcat1="Heart";
                 
 //                     }
 //                     i++;
@@ -267,7 +272,7 @@ signform.addEventListener('submit',(e)=>{
 //                     duration:duration,
 //                     category:cat,
 //                     subcategory:cat1,
-//                     // artistname:'Raftar',
+//                     artistname:'Sonu Nigam',
 //                     gifcategory:{
 //                         gifcat,
 //                         gifcat1

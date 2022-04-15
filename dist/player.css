@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Comforter&family=Dongle:wght@300;400;700&family=Mochiy+Pop+P+One&family=Ubuntu:ital,wght@0,300;0,400;0,500;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comforter&family=Dongle:wght@300;400;700&family=Kaushan+Script&family=Mochiy+Pop+P+One&family=Open+Sans:wght@300;400;700&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,700;1,300;1,500;1,700&family=Varela+Round&display=swap');
 *{
     margin: 0;
 }
@@ -139,6 +139,7 @@ form a i{
     right:0;
     padding: 8px;
     width: 200px;
+    cursor: pointer;
 
 }
 
@@ -258,15 +259,15 @@ form a i{
     }
 
 .mainc{
-    display: block;
-    position: absolute;
+    display: inline-block;
+    position: relative;
     top: 60px;
     height: 2150px;
     width: 80%;
     left : 250px;
     /* background-color: black; */
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     z-index: 0;
     transition: 0.3s;
 }
@@ -319,14 +320,29 @@ form a i{
 }
 
 .popup{
-    display:block;
+    display:none;
     position: absolute;
+    /* height: 80vh; */
     right: 0;
     top: 60px;
-    width: 80%;
-    background-color: antiquewhite;
-    z-index: 0;
+    width: 79%;
+    background-size: 60vh;
+    font-family: "Dongle",sans-serif;
+    color: white;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-blend-mode: darken;
+    z-index: 1;
 
+}
+
+.bttm{
+    display: flex;
+    width: 100%;
+    height: 100px;
+    position: relative;
+    bottom: 0;
+    background-color: white;
 }
 
 .color{
@@ -335,15 +351,25 @@ form a i{
     display: flex;
 }
 
-.newdiv{
-    /* border-radius: 10px; */
+.title,.newdiv{
+    font-size: 1.5rem;
+    display: flex;
+    width: 100%;
+    height: 2.5rem;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+/* .newdiv{
     height: 2.5rem;
     width: 100%;
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
+    position: relative;
     align-items: center;
     cursor: pointer;
-}
+} */
 
 .text{
     font-family: 'Dongle', sans-serif;
@@ -394,11 +420,12 @@ form a i{
 
 .container1
 {
-    display: flex;
+    display: inline-flex;
     background-color: rgb(34, 34, 34);
     margin: 5px 0;
     padding: 2px 2px;
-    height: 65vh;
+    /* position: absolute; */
+    /* height: 550px; */
     width: 100%;
     align-items: center;
     justify-content: space-evenly;
@@ -406,6 +433,34 @@ form a i{
 
     
 }
+
+.despop{
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    background: none;
+    width: 100%;
+    height: 50vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.despoprst{
+    font-size: 25px;
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #b3afaf;
+    cursor: pointer;
+}
+
+.despoprst:hover{
+    border-radius: 50%;
+    color: white;
+}
+
+
 
 .headi{
     display: flex;
@@ -439,7 +494,8 @@ form a i{
 .column
 {
     display: inline-flex;
-    width: 38vh;
+    position: relative;
+    width: 36vh;
     height: 45vh;
     padding: 5px 5px;
     cursor: pointer;
@@ -447,7 +503,6 @@ form a i{
     align-items: center;
     justify-content: center;
     background-color: #302f2f;
-    /* margin: 1.5vh 1.5vh; */
     margin: 2vh 2vh;
     transition: 0.3s;
     flex-direction: column;
@@ -460,14 +515,15 @@ form a i{
 
 .column-des{
     display: flex;
+    position: absolute;
     width: 28vh;
     padding: 5px 5px;
     flex-direction: column;
     font-family: 'Mochiy Pop P One', sans-serif;
-    font-size: 12px;
-    padding: 5px 5px;
+    font-size: 1rem;
     border-radius: 10px;
     color: white;
+    bottom: 5px;
     
 }
 
@@ -484,6 +540,8 @@ form a i{
 
 .calbum{
     display: flex;
+    position: absolute;
+    top: 10px;
     height: 33vh;
     width: 33vh;
     border-radius: 10px;
@@ -519,6 +577,7 @@ form a i{
         justify-content: center;
         flex-direction: column;
         transition: 0.3s;
+        z-index: 100;
     }
 
     .songinfo{
@@ -741,6 +800,7 @@ form a i{
             left: 0;
             width: 100%;
        }
+       
     
     }
 

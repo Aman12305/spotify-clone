@@ -1,7 +1,9 @@
-// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-// import { getFirestore, doc, getDoc, getDocs, collection , onSnapshot } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
-// import { getAuth } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-// import { getStorage,ref } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import { getFirestore, doc, getDoc, getDocs, collection , onSnapshot, query,where } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { getAuth ,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { getStorage,ref } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
+import { getDatabase,onValue } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+
 
 let masterplay = document.getElementById('masterplay');
 let progressbar = document.getElementById('myprogressbar');
@@ -28,6 +30,7 @@ let img = document.getElementById('img');
 
 const firebaseConfig = {
     apiKey: "AIzaSyAk0N0MBNyOvMy9mcWx9PBn25FZFY_hWj4",
+    databaseURL: "https://musix-c3842-default-rtdb.asia-southeast1.firebasedatabase.app",
     authDomain: "musix-c3842.firebaseapp.com",
     projectId: "musix-c3842",
     storageBucket: "musix-c3842.appspot.com",
@@ -38,31 +41,56 @@ const firebaseConfig = {
 //   var jsmediatags = require("jsmediatags");
 //   var jsmediatags = window.jsmediatags;
 
-  //init firebase app
-//   initializeApp(firebaseConfig);
+//   init firebase app
+  initializeApp(firebaseConfig);
 
-//   const db = getFirestore();
-//   const auth = getAuth();
-//   const storage = getStorage();
-//   const colRef = collection(db, 'Music');
-//   const artistRef = ref(storage, 'Artist');
+  const db = getFirestore();
+  const auth = getAuth();
+  const storage = getStorage();
+  const colRef = collection(db, 'Music');
+  const albumRef = collection(db, 'Album');
+  const artistRef = ref(storage, 'Artist');
+  const database = getDatabase();
 
 
 let audioelement = new Audio();
 let user = [];
 const heading = document.getElementById('heading');
-  const artist = document.getElementById('artist');
+const artist = document.getElementById('artist');
 
 
 let gifs = [];
 
-const played = (l) => {
-    audioelement.src = user[l].songurl;
-    audioelement.play();
-    masterplay.classList.remove('fa-play-circle');
-    masterplay.classList.add('fa-pause-circle');
-    songindex = l;
+const logout = () => {
+    signOut(auth).then(()=>{
+        // console.log("logout");
+        window.location.href = "index.html";
+    }).catch(err=>{
+        console.log(err.message);
+    })
+
 }
+
+export {logout};
+
+onAuthStateChanged(auth,(user)=>{
+    if(user)
+    {
+        const userId = user.uid;
+        // return onValue(ref(database, '/users/' + userId + '/Playlists/'), (snapshot) => {
+        // const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+
+        // console.log(username);
+
+        // // ...
+        // });
+        console.log(user.uid);
+    }
+    else
+    {
+        console.log('no user');
+    }
+})
 
 
 let gifindex=0;
@@ -89,9 +117,6 @@ function fetchgif(category)
     })
 }
 
-// img.addEventListener('loadstart',()=>{
-
-// })
 
 let imrpt=0;
 img.addEventListener('ended',()=>{
@@ -111,9 +136,6 @@ img.addEventListener('ended',()=>{
 })
 
 
-
-// fetchgif("sad");
-
 gif.addEventListener('click',()=>{
     if(album.style.display == 'none')
     {
@@ -123,7 +145,7 @@ gif.addEventListener('click',()=>{
     else
     {
         album.style.display = 'none';
-        mainc.style.display = 'flex';
+        mainc.style.display = 'block';
     }
     if(audioelement.play())
     {
@@ -131,48 +153,129 @@ gif.addEventListener('click',()=>{
     }
 })
 
+
+
 const songsdiv = document.getElementById('songsdiv');
+const popup = document.getElementById('popup');
+const albm = document.getElementById('albm');
+const title = document.getElementById('title');
+const despop = document.getElementById('despop');
 
-// onSnapshot(colRef,(data)=>{
-//         let i=1;
+const choose = (cat,cat1) => {
 
-//         data.docs.forEach(doc => {
-//                 user.push({...doc.data(), id: doc.id});
-//         })
-//         console.log(user);
-//         user.forEach(element => {
-//             newdiv(i,element.songname,element.artistname);
-//             i++;
-//         })
-//         audioelement.src = user[songindex].songurl;
-//     });
+    const al =  query(albumRef, where("albumname", '==', cat1)); 
 
-exports.choose = (id) => {
-    console.log(id);
+    albm.innerText = cat1;
+    
+
+    // topbar.style.backgroundColor = "#111";
+    
+    getDocs(al).then(data => {
+        // console.log(data.docs);
+        // albm.src = data[0].albumurl;
+        let albumimg=[];
+        
+        data.docs.forEach(doc => {
+            console.log(doc.data());
+            despop.style.backgroundImage = `url(${doc.data().imgsrc})`;
+            title.style.backgroundColor = `#${doc.data().color}`;
+            console.log(popup);
+      })
+
+    //   console.log(albumimg);
+
+
+    }).catch((error)=>{
+        console.log(error.message);
+    });
+
+
+    popup.style.display = 'block';
+    mainc.style.display = 'none';
+
+    masterplay.classList.remove('fa-pause-circle');
+    masterplay.classList.add('fa-play-circle');
+
+    const r = query(colRef, where(cat, '==', cat1)); 
+
+    user = [];
+
+    getDocs(r).then(data => {
+        
+              data.docs.forEach(doc => {
+                    user.push({...doc.data(), id: doc.id});
+              })
+              
+              let i=1;
+              console.log(user);
+              user.forEach(element => {
+                        newdiv(i,element.songname,element.artistname,element.duration);
+                        i++;
+                    })
+
+                    const nw = document.createElement('div');
+                    nw.classList.add('bttm');
+                    songsdiv.appendChild(nw);
+                    
+                    audioelement.src = user[songindex].songurl;
+        
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+
 }
 
+export {choose};
 
-function newdiv(id,songname,artistname){
+const reset = document.getElementById("reset");
+reset.addEventListener('click',()=>{
+
+    let n = user.length;
+    for(let i=0;i<=n;i++)
+    {
+        songsdiv.removeChild(songsdiv.lastChild);
+    }
+    popup.style.display = 'none';
+    mainc.style.display = 'block';
+
+});
+
+
+
+const played = (l) => {
+        audioelement.src = user[l-1].songurl;
+        audioelement.play();
+        masterplay.classList.remove('fa-play-circle');
+        masterplay.classList.add('fa-pause-circle');
+        songindex = l-1;
+        // console.log(user[l-1]);
+    }
+
+    export {played};
+
+
+
+function newdiv(id,songname,artistname,duration){
         const newdiv = document.createElement('div');
         newdiv.classList.add('color');
         newdiv.classList.add('newdiv');
         newdiv.setAttribute('id',id);
-        newdiv.setAttribute("onclick","suma(id,id)");
-        const newp = document.createElement('div');
+        newdiv.setAttribute("onclick","module.played(id)");
+
+        let du = getTime(duration);
     
         // newp.classList.add('text');
         if(artistname===undefined) artistname="";
-        if(songname.length>=15)
+        if(songname.length>=20)
         {
-            songname=songname.substring(0,15);
+            songname=songname.substring(0,20);
         }
-        newp.innerHTML = `<p class="text" style="font-size:20px; margin:0 10px">${id}.</p>`;
-        newdiv.appendChild(newp);
-        const son = document.createElement('div');
-        son.innerHTML = `<p class="text" style="font-size:25px;margin-bottom:7px;">${songname}</p><p class="text">${artistname}</p>`;
-        newdiv.appendChild(son);
+        // const son = document.createElement('div');
+        newdiv.innerHTML = `<span class="text" style="margin: 0 10px;">${id}.</span><span class="text"  style="margin: 0 auto 0 10px;">${songname}</span><span class="text"  style="margin: 0 100px 0 auto;">${artistname}</span><span class="text"  style="margin: 0 30px 0 0;">${du}</span>`;
+        // newdiv.appendChild(son);
         songsdiv.appendChild(newdiv);
-        console.log(newdiv);
+        // console.log(newdiv);
     }
 
 
@@ -449,11 +552,6 @@ search.addEventListener('click',()=>{
 }) ;
 
 
-// const logoutbut  = document.getElementById("logoutbut");
-
-// const {logout} = require('./login');
-
-// logout.addEventListener('click',logout());
 
 
 
