@@ -259,7 +259,7 @@ form a i{
     }
 
 .mainc{
-    display: inline-block;
+    display: block;
     position: relative;
     top: 60px;
     height: 2150px;
@@ -273,15 +273,18 @@ form a i{
 }
 
 .album{
-    display: none;
     position: absolute;
+    display: flex;
     top: 80px;
     height: 83%;
     width: 80.375%;
     left : 250px;
-    background-color: rgb(190, 221, 143);
+    /* background-color: rgb(190, 221, 143); */
     align-items: center;
     flex-direction: column;
+    background-image: "https://cdn.pixabay.com/photo/2018/06/30/09/29/monkey-3507317_1280.jpg";
+    background-repeat: no-repeat;
+    background-size: cover;
     z-index: 0;
     transition: 0.3s;
 }
@@ -806,7 +809,7 @@ form a i{
 
     @media screen and (min-width: 1001px){
         .sidenav{
-            left: 0;
+            left: 0 !important;
        }  
        .volume{
            right: 35px;

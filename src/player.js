@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getFirestore, doc, getDoc, getDocs, collection , onSnapshot, query,where } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, collection , onSnapshot, query,where,orderBy,limit } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { getAuth ,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 import { getStorage,ref } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 import { getDatabase,onValue } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
@@ -22,11 +22,9 @@ let volumeprogress = document.getElementById('myvolumebar');
 let leftside = document.getElementById('leftside');
 let side = document.getElementById('mysidenav');
 let login = document.getElementById('login');
-let gif = document.getElementById('gif');
-let mainc = document.getElementById('mainc');
-let album = document.getElementById('album');
+
 // let rotateimg = document.getElementById('rotate');
-let img = document.getElementById('img');
+let gifi = document.getElementById('gifi');
 
 const firebaseConfig = {
     apiKey: "AIzaSyAk0N0MBNyOvMy9mcWx9PBn25FZFY_hWj4",
@@ -60,6 +58,44 @@ const artist = document.getElementById('artist');
 
 
 let gifs = [];
+
+// Stack class
+class Stack {
+  
+    constructor()
+    {
+        this.items = [];
+    }
+
+    isEmpty()
+    {
+        // return true if stack is empty
+        return this.items.length == 0;
+    }
+    
+    push(element)
+    {
+        // push element into the items
+        this.items.push(element);
+    }
+
+    pop_back()
+    {
+        // return top most element in the stack
+        // and removes it from the stack
+        // Underflow if stack is empty
+        if (this.isEmpty())
+            return "Underflow";
+        return this.items.pop();
+    }
+
+    peek()
+    {
+        // return the top most element from the stack
+        // but does'nt delete it.
+        return this.items[this.items.length - 1];
+    }
+}
 
 const logout = () => {
     signOut(auth).then(()=>{
@@ -96,6 +132,7 @@ onAuthStateChanged(auth,(user)=>{
 let gifindex=0;
 function fetchgif(category)  
 {
+    gifindex=0;
     // https://api.giphy.com/v1/gifs/search?api_key=${process.env.API_KEY}&q=${category}&limit=1
     
     // fetch(`https://api.giphy.com/v1/gifs/trending?api_key=6fjnTIJp6tQUbj2zXy7YO3JeIS5wDsNZ&q=${category}&limit=30&rating=g&bundle=sticker_layering`)
@@ -105,13 +142,16 @@ function fetchgif(category)
     .then(data => {        
         gifs=[];
         data.results.forEach(element => {
-            // console.log(element.media[0].loopedmp4.url);
+            console.log(element.media[0].loopedmp4.url);
             gifs.push(element.media[0].loopedmp4.url);
         });
+        console.log("sucess");
         // console.log(gifs);
         gifindex=0;
-        img.src = gifs[gifindex];
-        img.play();
+        gifi.src = gifs[gifindex];
+        // console.log(img);
+        gifi.play();
+        console.log(gifi);
     }).catch((error)=>{
         console.log(error.message);
     })
@@ -119,7 +159,7 @@ function fetchgif(category)
 
 
 let imrpt=0;
-img.addEventListener('ended',()=>{
+gifi.addEventListener('ended',()=>{
     if(imrpt==1){
     gifindex++;
     imrpt=0;
@@ -130,27 +170,54 @@ img.addEventListener('ended',()=>{
     if(gifindex>=gifs.length){
         gifindex=0;
     }
-    img.src = gifs[gifindex];
-    img.play();
+    gifi.src = gifs[gifindex];
+    gifi.play();
 
 })
 
 
-gif.addEventListener('click',()=>{
-    if(album.style.display == 'none')
-    {
+
+let gifbut = document.getElementById('gif');
+let mainc = document.getElementById('mainc');
+let album = document.getElementById('album');
+
+var stack = new Stack();
+stack.push('M');
+
+let pop=0;
+let mainpop=0;
+
+gifbut.addEventListener('click',()=>{
+
+    if(stack.peek()=='M'){
         mainc.style.display = 'none';
         album.style.display = 'flex';
+        stack.push('A');
     }
-    else
+    else if(stack.peek()=='P')
     {
-        album.style.display = 'none';
-        mainc.style.display = 'block';
+        popup.style.display = 'none';
+        album.style.display = 'flex';
+        stack.push('A');
     }
-    if(audioelement.play())
+    else if(stack.peek()=='A'){
+        album.style.display = 'none';
+        stack.pop_back();
+
+        if(stack.peek()=='M'){
+            mainc.style.display = 'block';
+        }
+        else if(stack.peek()=='P'){
+            popup.style.display = 'block';
+        }
+
+    }
+   
+    if(audioelement.currentTime>0)
     {
         fetchgif(user[songindex].gifcategory.gifcat);
     }
+    
 })
 
 
@@ -173,7 +240,6 @@ const choose = (cat,cat1) => {
     getDocs(al).then(data => {
         // console.log(data.docs);
         // albm.src = data[0].albumurl;
-        let albumimg=[];
         
         data.docs.forEach(doc => {
             console.log(doc.data());
@@ -189,14 +255,19 @@ const choose = (cat,cat1) => {
         console.log(error.message);
     });
 
-
+    stack.pop_back();
     popup.style.display = 'block';
+    stack.push('P');
     mainc.style.display = 'none';
 
-    masterplay.classList.remove('fa-pause-circle');
-    masterplay.classList.add('fa-play-circle');
+    // if(audioelement.currentTime>0)
+    // {
+    //      masterplay.classList.remove('fa-pause-circle');
+    //      masterplay.classList.add('fa-play-circle');
+    // }
+   
 
-    const r = query(colRef, where(cat, '==', cat1)); 
+    const r = query(colRef, where(cat, '==', cat1) , limit(20)); 
 
     user = [];
 
@@ -216,8 +287,9 @@ const choose = (cat,cat1) => {
                     const nw = document.createElement('div');
                     nw.classList.add('bttm');
                     songsdiv.appendChild(nw);
+                    songindex=0;
                     
-                    audioelement.src = user[songindex].songurl;
+                    // audioelement.src = user[songindex].songurl;
         
           })
           .catch(err => {
@@ -236,7 +308,9 @@ reset.addEventListener('click',()=>{
     {
         songsdiv.removeChild(songsdiv.lastChild);
     }
+    stack.pop_back();
     popup.style.display = 'none';
+    stack.push('M');
     mainc.style.display = 'block';
 
 });
@@ -284,7 +358,7 @@ masterplay.addEventListener('click',()=>{
     {
         audioelement.play();
         if(album.style.display=='flex')
-        img.play();
+        gifi.play();
         masterplay.classList.remove('fa-play-circle');
         masterplay.classList.add('fa-pause-circle');
         
@@ -293,7 +367,7 @@ masterplay.addEventListener('click',()=>{
     {
         audioelement.pause();
         if(album.style.display == 'flex')
-        img.pause();
+        gifi.pause();
         masterplay.classList.remove('fa-pause-circle');
         masterplay.classList.add('fa-play-circle');
         
@@ -350,6 +424,7 @@ function nexttrack()
 }
 
 audioelement.addEventListener('timeupdate',()=>{
+
     currtime.innerText = getTime(audioelement.currentTime);
     progressbar.value = (audioelement.currentTime/audioelement.duration)*100;
 
@@ -423,6 +498,7 @@ function getTime(time) {
 
   volumeprogress.addEventListener('change',()=>{
     audioelement.volume = (volumeprogress.value/10);
+    // vf = audioelement.volume;
     if(audioelement.volume==0)
     {
         volumtag.classList.remove('fa-volume-up');
@@ -432,7 +508,6 @@ function getTime(time) {
         volumtag.classList.remove('fa-volume-off');
         volumtag.classList.add('fa-volume-up');
     }
-    // vf = audioelement.volume;
   });
 
 
@@ -472,6 +547,7 @@ repeat.addEventListener('click',()=> {
 /*                                   PLAYER FUNCTION  START                         */
 
 //this is for what we have to do when we click volume icon in dom
+let vf=0;
 volumtag.addEventListener('click',()=>{
     if(vf===0)
     {
@@ -522,31 +598,38 @@ let k = 0;
 
 
 //for login button
+const logn = document.getElementById("logn");
+let lo = 0;
 login.addEventListener('click',()=>{
 
-    const Div = document.getElementById("logn")
-        if(Div.style.display=="none")
+        if(lo===0)
         {
-            Div.style.display="block";
+            logn.style.display="block";
+            lo=1;
         }
         else
         {
-            Div.style.display="none";
+            logn.style.display="none";
+            lo=0;
         }
     
 });
 
 //for search button
 const search = document.getElementById('searchbut');
+const Div = document.getElementById("Search");
+let se=0;
 search.addEventListener('click',()=>{
-    const Div = document.getElementById("Search")
-    if(Div.style.display=="none")
+    
+    if(se===0)
     {
         Div.style.display="flex";
+        se=1;
     }
     else
     {
         Div.style.display="none";
+        se=0;
     }
 
 }) ;
