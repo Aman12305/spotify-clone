@@ -109,24 +109,24 @@ const logout = () => {
 
 export {logout};
 
-onAuthStateChanged(auth,(user)=>{
-    if(user)
-    {
-        const userId = user.uid;
-        // return onValue(ref(database, '/users/' + userId + '/Playlists/'), (snapshot) => {
-        // const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+// onAuthStateChanged(auth,(user)=>{
+//     if(user)
+//     {
+//         const userId = user.uid;
+//         // return onValue(ref(database, '/users/' + userId + '/Playlists/'), (snapshot) => {
+//         // const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
 
-        // console.log(username);
+//         // console.log(username);
 
-        // // ...
-        // });
-        console.log(user.uid);
-    }
-    else
-    {
-        console.log('no user');
-    }
-})
+//         // // ...
+//         // });
+//         console.log(user.uid);
+//     }
+//     else
+//     {
+//         console.log('no user');
+//     }
+// })
 
 
 let gifindex=0;
@@ -142,16 +142,11 @@ function fetchgif(category)
     .then(data => {        
         gifs=[];
         data.results.forEach(element => {
-            console.log(element.media[0].loopedmp4.url);
             gifs.push(element.media[0].loopedmp4.url);
         });
-        console.log("sucess");
-        // console.log(gifs);
         gifindex=0;
         gifi.src = gifs[gifindex];
-        // console.log(img);
         gifi.play();
-        console.log(gifi);
     }).catch((error)=>{
         console.log(error.message);
     })
@@ -160,6 +155,10 @@ function fetchgif(category)
 
 let imrpt=0;
 gifi.addEventListener('ended',()=>{
+
+    if(gifs.length===0)
+    return;
+
     if(imrpt==1){
     gifindex++;
     imrpt=0;
@@ -175,7 +174,17 @@ gifi.addEventListener('ended',()=>{
 
 })
 
+const qr = query(colRef,where('artistname','>=', "Aastha Gill"),limit(5));
 
+onSnapshot(qr , (data) => {
+    // console.log(data.docs);
+    // albm.src = data[0].albumurl;
+    
+    data.docs.forEach(doc => {
+        console.log(doc.data());
+  })
+
+})
 
 let gifbut = document.getElementById('gif');
 let mainc = document.getElementById('mainc');
@@ -200,9 +209,17 @@ gifbut.addEventListener('click',()=>{
         album.style.display = 'flex';
         stack.push('A');
     }
+    else if(stack.peek()==="P1")
+    {
+        popup1.style.display = 'none';
+        album.style.display = 'flex';
+        stack.push('A');
+    }
     else if(stack.peek()=='A'){
         album.style.display = 'none';
         stack.pop_back();
+        gifs = [];
+        gifindex=0;
 
         if(stack.peek()=='M'){
             mainc.style.display = 'block';
@@ -210,10 +227,14 @@ gifbut.addEventListener('click',()=>{
         else if(stack.peek()=='P'){
             popup.style.display = 'block';
         }
+        else if(stack.peek()=='P1'){
+            popup1.style.display = 'block';
+        }
+
 
     }
    
-    if(audioelement.currentTime>0)
+    if(audioelement.currentTime>0 && stack.peek()==='A')
     {
         fetchgif(user[songindex].gifcategory.gifcat);
     }
@@ -242,10 +263,8 @@ const choose = (cat,cat1) => {
         // albm.src = data[0].albumurl;
         
         data.docs.forEach(doc => {
-            console.log(doc.data());
             despop.style.backgroundImage = `url(${doc.data().imgsrc})`;
             title.style.backgroundColor = `#${doc.data().color}`;
-            console.log(popup);
       })
 
     //   console.log(albumimg);
@@ -341,9 +360,9 @@ function newdiv(id,songname,artistname,duration){
     
         // newp.classList.add('text');
         if(artistname===undefined) artistname="";
-        if(songname.length>=20)
+        if(songname.length>=18)
         {
-            songname=songname.substring(0,20);
+            songname=songname.substring(0,18)+"...";
         }
         // const son = document.createElement('div');
         newdiv.innerHTML = `<span class="text" style="margin: 0 10px;">${id}.</span><span class="text"  style="margin: 0 auto 0 10px;">${songname}</span><span class="text"  style="margin: 0 100px 0 auto;">${artistname}</span><span class="text"  style="margin: 0 30px 0 0;">${du}</span>`;
@@ -486,6 +505,8 @@ audioelement.addEventListener('loadstart',()=>{
 
 
 
+
+
 function getTime(time) {
     return (
       ("0" + Math.floor(time / 60)).slice (-2) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
@@ -588,6 +609,29 @@ let k = 0;
     
     });
 
+// forward.addEventListener('ondblclick',()=>{
+//     audioelement.currentTime += 10;
+
+//     if(audioelement.currentTime >= audioelement.duration)
+//     {
+//         songindex++;
+//         if(songindex > songs.length-1)
+//         {
+//             songindex = 0;
+//         }
+//         nexttrack();
+//     }
+// });
+
+// backward.addEventListener('ondblclick',()=>{
+//     audioelement.currentTime -= 10;
+
+//     if(audioelement.currentTime <= 0)
+//     {
+//         audioelement.currentTime = 0;
+//     }
+// });
+
 
 
 
@@ -632,10 +676,234 @@ search.addEventListener('click',()=>{
         se=0;
     }
 
-}) ;
+});
 
 
 
+// function searchsngdiv(i,songname,artistname)
+// {
+//     const newdiv = document.createElement('div');
+//     newdiv.setAttribute('id',i);
+//     newdiv.setAttribute("onclick","module.choose1(id)");
+
+//     if(songname.length>=15)
+//     {
+//         songname = songname.substring(0,15)+"...";
+//     }
+
+//     newdiv.classList.add('searchsong');
+//     newdiv.innerHTML = `<h2 style="margin:0 4px;">${songname}</h2><br><p style="margin:0 4px;">${artistname}</p>`;
+//     searchview.appendChild(newdiv);
+// }
+
+const searchicon = document.getElementById('searchicon');
+const searchview = document.getElementById('searchview');
 
 
+
+searchicon.addEventListener('click',()=>{
+
+    searchsng();
+
+});
+
+function searchsng(){
+    if(searchtext.value.length===0)
+    {
+        alert("Please enter a song name/artist name");
+        return;
+    }
+    searchview.style.display = "none";
+    choose1("artistname",searchtext.value);
+}
+
+
+const searchtext = document.getElementById('searchtext');
+const Search = document.getElementById('Search');
+
+const popup1 = document.getElementById('popup1');
+const albm1 = document.getElementById('albm1');
+const despop1 = document.getElementById('despop1');
+const title1 = document.getElementById('title1');
+const artist1 = document.getElementById('artist1');
+const songsdiv1 = document.getElementById('songsdiv1');
+const reset1 = document.getElementById('reset1');
+const albm2 = document.getElementById('albm2');
+
+
+function newdiv1(id,songname,artistname,duration){
+    const newdiv = document.createElement('div');
+    newdiv.classList.add('color');
+    newdiv.classList.add('newdiv');
+    newdiv.setAttribute('id',id);
+    newdiv.setAttribute("onclick","module.played(id)");
+
+    let du = getTime(duration);
+
+    // newp.classList.add('text');
+    if(artistname===undefined) artistname="";
+    if(songname.length>=18)
+    {
+        songname=songname.substring(0,18)+"...";
+    }
+    // const son = document.createElement('div');
+    newdiv.innerHTML = `<span class="text" style="margin: 0 10px;">${id}.</span><span class="text"  style="margin: 0 auto 0 10px;">${songname}</span><span class="text"  style="margin: 0 100px 0 auto;">${artistname}</span><span class="text"  style="margin: 0 30px 0 0;">${du}</span>`;
+    // newdiv.appendChild(son);
+    songsdiv1.appendChild(newdiv);
+    // console.log(newdiv);
+}
+
+
+function choose1(cat,cat1){
+
+    const al =  query(albumRef, where("albumname", '==', cat1)); 
+
+    albm1.innerText = cat1;
+    
+    if(stack.peek()==='A')
+    {
+        album.style.display = 'none';
+    }
+    else if(stack.peek()==='P')
+    {
+        popup.style.display = 'none';
+    }
+    else if(stack.peek()==='M')
+    {
+        mainc.style.display = 'none';
+    }
+    else if(stack.peek()==='P1'){
+        let n = songsdiv1.childNodes;
+
+        for(let i=0;i<=n;i++){
+            songsdiv1.removeChild(songsdiv1.lastChild);
+        }
+    }
+
+    popup1.style.display = 'block';
+    stack.push('P1');
+
+    getDocs(al).then(data => {   
+        
+            data.docs.forEach(doc => {
+                despop1.style.backgroundImage = `url(${doc.data().imgsrc})`;
+                title1.style.backgroundColor = `#${doc.data().color}`;
+            })
+       
+    }).catch((error)=>{
+        console.log(error.message);
+    });
+
+    const r = query(colRef, where(cat, '==', cat1) , limit(20)); 
+
+    user = [];
+
+    getDocs(r).then(data => {
+
+              data.docs.forEach(doc => {
+                    user.push({...doc.data(), id: doc.id});
+              })
+              
+              let i=1;
+              user.forEach(element => {
+                        newdiv1(i,element.songname,element.artistname,element.duration);
+                        i++;
+                    })
+
+                    const nw = document.createElement('div');
+                    nw.classList.add('bttm');
+                    songsdiv.appendChild(nw);
+                    songindex=0;
+                    
+        
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+
+
+    
+}
+
+
+reset1.addEventListener('click',()=>{
+
+    let n = user.length;
+    for(let i=0;i<=n;i++)
+    {
+        songsdiv1.removeChild(songsdiv1.lastChild);
+    }
+    stack.pop_back();
+    popup1.style.display = 'none';
+    stack.push('M');
+    mainc.style.display = 'block';
+
+});
+
+
+searchtext.onkeyup = (e)=>{
+    
+    
+    let searchvalue = e.target.value;
+
+    if(e.keyCode === 13){
+        searchsng();
+        return;
+    }
+
+    let emptyarray = [];
+
+    if(searchvalue){
+        emptyarray = suggestion.filter((data)=>{
+            //here this below function is used to the array and user entered value which startswith the value
+            return data.toLocaleLowerCase().includes(searchvalue.toLocaleLowerCase());
+        });
+
+        let i=-1;
+        // let n = emptyarray.length;
+
+        // emptyarray.forEach((data)=>{
+        //     emptyarray[i] = `<li id="${i}" onclick="outputclicked(id)">${data}</li>`;
+        //     i++;
+        // })
+
+        emptyarray = emptyarray.map((data)=>{
+            i++;
+            if(i>10)
+            return;
+            return data = `<li id="${i}" onclick="module.outputclicked(id)">${data}</li>`;
+        })
+    }
+    else{
+
+    }
+
+    showsuggestion(emptyarray);
+
+}
+
+function showsuggestion(list){
+
+    let listdata;
+    if(!list.length){
+        searchview.style.display = "none";
+    }
+    else
+    {
+        searchview.style.display = "block";
+        listdata = list.join('');
+    }
+
+    searchview.innerHTML = listdata;
+}
+
+const outputclicked = (id)=>{
+
+    searchtext.value = document.getElementById(id).innerText;
+    searchview.style.display = "none";
+    searchsng();
+
+}
+
+export {outputclicked};
 

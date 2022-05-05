@@ -15,11 +15,47 @@ nav{
     background-color: #111;
     align-items: center;
     width: 100%;
-    height: 60px;
+    height: 3rem;
     /* padding: 8px 13px;*/
     position: fixed; 
     z-index: 10;
 
+}
+
+.searchview{
+    position: fixed;
+    display: flex;
+    top: 62px;
+    width:32%;
+    padding: 4px 4px;
+    left: 43%;
+    z-index: 5;
+    display: none;
+    font-family: 'Dongle',sans-serif;
+    font-size: 1.5rem;
+    flex-direction: column;
+    background-color: white;
+    margin: 10px 0;
+}
+
+
+.searchview li{
+    height: 25px;
+    width: 98%;
+    list-style: none;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    padding: 3px 4px;
+    color: rgb(57, 56, 56);
+    line-height: 13px;
+    
+}
+
+.searchview li:hover{
+    color: black;
+    border-radius: 4px;
+    background-color: #bababa;
 }
 
 .brand {
@@ -42,11 +78,13 @@ nav{
     padding: 2px 2px;
 }
 
-form{
+.search {
     left: 43%;
+    display: flex;
     display: none;
     align-items: center;
-    height: 50px;
+    top: 1vh;
+    height: 2.5rem;
     padding: 5px 12px;
     font-size: 30px; 
     width: 30%;
@@ -55,8 +93,8 @@ form{
     border: none;
     position: absolute;
     outline: none;
-    align-items: center;
     border-radius: 80px;
+    font-family: 'Dongle', sans-serif;
 }
 
 
@@ -67,14 +105,14 @@ input{
     outline:none;
     font-family: 'Dongle', sans-serif;
     position: relative;
-    height: 40px;
-    width: 70%;
+    height: 2rem;
+    width: 69%;
     font-size: 25px;
     padding: 3px 5px;
 
 }
 
-form a{
+.searchicon{
     height: 20px;
     width: 30px;
     position: relative;
@@ -87,13 +125,14 @@ form a{
     
 }
 
-form a i{
+.searchicon i{
     font-size: 20px;
     color: #787676;
+    cursor: pointer;
 
 }
 
-.search a i:hover{
+.searchicon i:hover{
     color: black;
 
 }
@@ -103,7 +142,7 @@ form a i{
     color: #787676;
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
     right: 5px;
     position: absolute;
 }
@@ -207,7 +246,7 @@ form a i{
         font-size: 30px;
         color: white;
         background-color: #111;
-        z-index: 1;
+        z-index: 2;
         transition: 0.3s;
     }
 
@@ -824,3 +863,61 @@ form a i{
     
     }
 
+    @media screen and (max-width: 418px){
+
+        .search{
+            width: 90vw;
+            display: flex !important;
+            top: 70px;
+            margin: auto;
+            left: 1.5vw;
+            border-radius: 20px;
+        }
+
+        .searchview{
+            top: 130px;
+            width: 40vw;
+            left: 33%;
+        }
+
+        .top{
+            height: 8rem;
+        }
+
+        .brand{
+            position: absolute;
+            top: 0.8vh;
+        }
+
+        input{
+            width: 75vw;
+        }
+
+        .mainc{
+            top: 130px;
+        }
+
+        .popup{
+            top: 130px;
+        }
+
+        .album{
+            top: 130px;
+        }
+        .popup1{
+            top: 130px;
+        }
+
+        .column{
+            margin-left: 12vw;
+        }
+    
+    }
+
+    @media screen and (min-width: 980px){
+
+        .column{
+            margin: 10px 10px;
+        }
+
+    }

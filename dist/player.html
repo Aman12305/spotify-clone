@@ -11,17 +11,17 @@
 <body>
 
 <!-- Navigation Bar -->
-<div class="top">
-		<nav id="top">
+<div>
+		<nav id="top" class="top">
 			<div class="brand">
 				<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/252px-Spotify_logo_without_text.svg.png">
 				<span style="padding:0 3px">Spotify</span>
 			</div>
 				
 				<form class="search"  id="Search">
-					<a href="#" ><i class="fas fa-search"></i></a>
-					<input type="text" placeholder="Search.." style="position: relative;">
-					<button type="reset" >&times;</button>
+					<p id="searchicon" class="searchicon"><i class="fas fa-search"></i></p>
+					<input type="text" id="searchtext" placeholder="Search.." style="position: relative; text-transform:capitalize">
+					<button type="reset" id="srst">&times;</button>
 				</form>
 
 			<div class="login" id="login" >
@@ -33,6 +33,10 @@
 				</div>
 			</div>
 		</nav>
+</div>
+
+<div class="searchview" id="searchview">
+
 </div>
 
 
@@ -75,6 +79,26 @@
 
 
 	</div>
+</div>
+
+<div class="popup" id="popup1">
+	<div class="despop" id="despop1">
+		<i class="fa-solid fa-circle-xmark despoprst" id="reset1"></i>
+		<h1 id="albm1" style="background: none;margin: auto 10px;font-size: 40px; padding: 0 0;height: 50px;font-family: 'Kaushan Script', cursive;"></h1>
+		<h1 style="background: none;margin: 0 10px;" id="albm2">Spotify</h1>
+		<span class="title">Some Similiar songs to same artist</span>
+	</div>
+	<div class="title" id="title1">
+		<span style="margin: 0 10px;">#</span>
+		<span style="margin: 0 auto 0 10px;">Title</span>
+		<span style="margin: 0 130px 0 auto;">Artist</span>
+		<span style="margin: 0 20px 0 0;">Duration</span>
+	</div>
+	<div class="songs" id="songsdiv1">
+
+
+	</div>
+
 </div>
 
 
@@ -239,6 +263,7 @@
 </script>
 <script type="module" src="../src/player.js"></script>
 <script type="module" src="../src/module.js"></script>
+<script src="../src/suggestion.js"></script>
 
 </body>
 </html>
