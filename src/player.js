@@ -263,7 +263,7 @@ const choose = (cat,cat1) => {
         // albm.src = data[0].albumurl;
         
         data.docs.forEach(doc => {
-            despop.style.backgroundImage = `url(${doc.data().imgsrc})`;
+            despop.style.backgroundImage = `linear-gradient(rgb(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),url(${doc.data().imgsrc})`;
             title.style.backgroundColor = `#${doc.data().color}`;
       })
 
@@ -786,7 +786,7 @@ function choose1(cat,cat1){
     getDocs(al).then(data => {   
         
             data.docs.forEach(doc => {
-                despop1.style.backgroundImage = `url(${doc.data().imgsrc})`;
+                despop1.style.backgroundImage = `linear-gradient(rgb(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),url(${doc.data().imgsrc})`;
                 title1.style.backgroundColor = `#${doc.data().color}`;
             })
        
