@@ -15,7 +15,8 @@
 
 ![opera_TWUPh9ARnE](https://user-images.githubusercontent.com/93370526/168461808-3438490f-81eb-434e-8f97-3e91de863380.png)
 Main Landing Page
-![opera_TWUPh9ARnE](https://user-images.githubusercontent.com/93370526/168461863-d2f4e540-1361-489f-b3ec-17a0ed91f62e.png)
+![opera_TWUPh9ARnE](https://user-images.githubusercontent.com/93370526/168462853-2e8c3b88-52c4-4ebf-93ac-b65a73359693.png)
+Player Page
 
 ## 🚀 About Me
 I'm **[Aman Solanki](https://bit.ly/amansolankiportfolio)**, currently an undergraduate student at Delhi Technological University(DTU).Currently learning Data Structures and Algorithms, while understanding and implementing the fundamentals of computer engineering and learning web development.
