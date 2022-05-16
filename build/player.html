@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Spotify-Web Player</title>
+	<link  rel="stylesheet" href="./static/css/player.css">
+	<link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div>
+		<nav id="top" class="top">
+			<div class="brand">
+				<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/252px-Spotify_logo_without_text.svg.png" alt="logo">
+				<span style="padding:0 3px">Spotify</span>
+			</div>
+				
+				<form class="search"  id="Search">
+					<p id="searchicon" class="searchicon"><i class="fas fa-search"></i></p>
+					<input type="text" id="searchtext" placeholder="Search.." style="position: relative; text-transform:capitalize">
+					<button type="reset" id="srst">&times;</button>
+				</form>
+
+			<div class="login" id="login" >
+				<i class="fas fa-user-circle"></i>
+				<div class="login_cont" id="logn">
+					<!-- <a href="#">Account</a>
+					<a href="#">Upgrade to premium</a> -->
+					<a id="logoutbut" onclick="module.logout()">Log out</a>
+				</div>
+			</div>
+		</nav>
+</div>
+
+<div class="searchview" id="searchview">
+
+</div>
+
+
+<!-- Side NavigationBar -->
+<div id="mysidenav" class="sidenav">
+	<!-- <div class="brand" style="margin:8px 0;">
+		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/252px-Spotify_logo_without_text.svg.png">
+		<span style="padding:5px 3px; font-size: 30px;">Spotify</span>
+	</div> -->
+	<div class="sidenav-content">
+		<ul>
+			<li><i class="fas fa-home"></i>Home</li>
+			<li id="searchbut"><i class="fas fa-search"></i>Search</li>
+			<li style="margin-bottom: 15px;"><i class="fas fa-record-vinyl"></i>Album</li>	
+			<hr style="width: 150%">
+		</ul>
+	</div>
+
+</div>
+
+<!-- Icon for Side NavigationBar -->
+<div class="leftside" id="leftside">
+	<i class="fas fa-chevron-right"></i>
+</div>
+
+<!-- Popup for containing Songs -->
+<div class="popup"  id="popup">
+	<div class="despop" id="despop">
+		<i class="fa-solid fa-circle-xmark despoprst" id="reset"></i>
+		<h1 id="albm" style="background: none;margin: auto 10px;font-size: 40px; padding: 0 0;height: 50px;font-family: 'Kaushan Script', cursive;"></h1>
+		<h1 style="background: none;margin: 0 10px;">Spotify</h1>
+		<div class="banner--fadeBottom "></div>
+	</div>
+	<div class="title" id="title">
+		<span style="margin: 0 10px;">#</span>
+		<span style="margin: 0 auto 0 10px;">Title</span>
+		<span style="margin: 0 130px 0 auto;">Artist</span>
+		<span style="margin: 0 20px 0 0;">Duration</span>
+	</div>
+	<div class="songs" id="songsdiv">
+
+
+	</div>
+</div>
+
+<div class="popup" id="popup1">
+	<div class="despop" id="despop1">
+		<i class="fa-solid fa-circle-xmark despoprst" id="reset1"></i>
+		<h1 id="albm1" style="background: none;margin: auto 10px;font-size: 40px; padding: 0 0;height: 50px;font-family: 'Kaushan Script', cursive;"></h1>
+		<h1 style="background: none;margin: 0 10px;" id="albm2">Spotify</h1>
+		<span class="title">Some Similiar songs to same artist</span>
+	</div>
+	<div class="title" id="title1">
+		<span style="margin: 0 10px;">#</span>
+		<span style="margin: 0 auto 0 10px;">Title</span>
+		<span style="margin: 0 130px 0 auto;">Artist</span>
+		<span style="margin: 0 20px 0 0;">Duration</span>
+	</div>
+	<div class="songs" id="songsdiv1">
+
+
+	</div>
+
+</div>
+
+
+<!-- <div class="rightside" id="rightside">
+	<i class="fas fa-chevron-left"></i>
+</div> -->
+
+<!-- This is for gif container -->
+<div class="album"  id="album" style="display: none;">
+	<div class="cont" style="top: 30px; position: relative;" >
+		<div class="image">
+			<!-- id="rotate" -->
+				<video src="" alt="gif" class="image" id="gifi" style="height:150px; width:150px">
+		</div>
+		<div class="des">
+			<div class="artist">
+				<h2>Heading of song</h2>
+				<p>Artists</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- This is main container for album -->
+<div class="mainc" id="mainc">
+	<div class="container1" >
+		<div class="headi">
+			Artists
+		</div>
+		<div class="containerins">
+			<div class="column" id="Arijit Singh" onclick = "module.choose('artistname',id)">
+				<img src="https://firebasestorage.googleapis.com/v0/b/musix-c3842.appspot.com/o/Arjit-Singh-Album.jpg?alt=media&token=804804ed-edaf-451c-a01c-fdab9ef10bb4" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Arijit Singh</h3>
+				</div>
+			</div>
+			<div class="column" id="Guru Randhawa" onclick="module.choose('artistname',id)">
+				<img src="https://i.scdn.co/image/ab67616d0000b273ff38ffe38a81cbbf5c3b65fb" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Guru Randhawa</h3>
+				</div>
+			</div>
+			<div class="column" id="Dhvani Bhanusali" onclick = "module.choose('artistname',id)">
+				<img src="https://firebasestorage.googleapis.com/v0/b/musix-c3842.appspot.com/o/Dhvani.png?alt=media&token=9cdb223f-8395-499d-870a-c51b70b8a188" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Dhvani Bhanusali</h3>
+				</div>
+			</div>
+			<div class="column" id="Imran Khan" onclick = "module.choose('artistname',id)">
+				<img src="https://firebasestorage.googleapis.com/v0/b/musix-c3842.appspot.com/o/Imran-Album.jfif?alt=media&token=9302cdf8-91c5-4219-b1dd-fe0e6490a570" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Imran Khan</h3>
+				</div>
+			</div>
+			<div class="column" id="Aayushman Khurana" onclick = "module.choose('artistname',id)">
+				<img src="https://firebasestorage.googleapis.com/v0/b/musix-c3842.appspot.com/o/Ayushmann-Khurrana-Album.jpg?alt=media&token=452ea537-c162-4c06-927f-1754040fa56f" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Aayushman Khurana</h3>
+				</div>
+			</div>
+			<div class="column" id="Hardy Sandhu" onclick = "module.choose('artistname',id)">
+				<img src="https://static.toiimg.com/thumb/msid-74524357,width-800,height-600,resizemode-75,imgsize-60332,pt-32,y_pad-40/74524357.jpg" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Hardy Sandhu</h3>
+				</div>
+			</div>
+			<div class="column" id="Neha Kakkar" onclick = "module.choose('artistname',id)">
+				<img src="https://i.scdn.co/image/ab6761610000e5eb2eb3676d6d03d8872feb0875" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Neha Kakkar</h3>
+				</div>
+			</div>
+			<div class="column" id="Raftar" onclick = "module.choose('artistname',id)">
+				<img src="https://firebasestorage.googleapis.com/v0/b/musix-c3842.appspot.com/o/Raftar-Album.jpg?alt=media&token=e8409c76-edf6-4388-a93e-f084ced9c7ac" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Raftar</h3>
+				</div>
+			</div>
+			<div class="column" id="Sonu Nigam" onclick = "module.choose('artistname',id)">
+				<img src="https://firebasestorage.googleapis.com/v0/b/musix-c3842.appspot.com/o/Sonu-Nigam-Album.jpg?alt=media&token=beda5673-7554-4fdb-b0df-d9957b7144a6" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Sonu Nigam</h3>
+				</div>
+			</div>
+			<div class="column" id="Aastha Gill" onclick = "module.choose('artistname',id)">
+				<img src="https://www.bizasialive.com/wp-content/uploads/2021/06/Aastha-Gill-1200x.jpg" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Aastha Gill</h3>
+				</div>
+			</div>
+			<div class="column" id="Badshah" onclick = "module.choose('artistname',id)">
+				<img src="https://firebasestorage.googleapis.com/v0/b/musix-c3842.appspot.com/o/Badshah1.jpg?alt=media&token=a90c2026-356f-4e13-bd2d-91869d32d8e9" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Badshah</h3>
+				</div>
+			</div>
+			<div class="column" id="Daily Mix" onclick = "module.choose('subcategory',id)">
+				<img src="https://firebasestorage.googleapis.com/v0/b/musix-c3842.appspot.com/o/Honey%20Singh.jpg?alt=media&token=fa0627f1-2456-47d2-92b7-bbb57a30d501" alt="cover" class="calbum" >
+				<i class="fas fa-play-circle column-play"></i>
+				<div class="column-des">
+						<h3>Yo-Yo Honey Singh</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container1" style="color: white;">
+		hey there i am here for your help
+	</div>
+
+</div>
+
+<!-- this is player controls -->
+<div class="bottom">
+	<div class="songinfo">
+		<!-- <img src="back/1.jpeg" alt="cover" id="songinfoimg" style="width:70px; margin-right: 4px;"> -->
+		<div class="artist" style="color: white; font-family: 'Dongle', sans-serif; font-size: 16px;">
+			<h2 style="line-height: 0.8;" id ="heading"></h2>
+			<p id="artist"></p>
+		</div>
+	</div>
+
+	<div class="icons">
+			<ul class="play">
+				<span id="shuffle"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M21.548 7.837l-2.673 2.673a1 1 0 0 1-1.415-1.414L18.556 8H17.1a5.22 5.22 0 0 0-5.089 4.058A5.264 5.264 0 0 0 17.105 16h1.502l-1.147-1.147a1 1 0 0 1 1.415-1.414l2.828 2.828a.996.996 0 0 1 .282.562a1.006 1.006 0 0 1-.437 1.008l-2.673 2.673a1 1 0 0 1-1.415-1.414L18.556 18h-1.451a7.264 7.264 0 0 1-6.114-3.34A7.22 7.22 0 0 1 4.901 18H3a1 1 0 0 1 0-2h1.901a5.22 5.22 0 0 0 5.06-3.936A5.263 5.263 0 0 0 4.836 8H3a1 1 0 1 1 0-2h1.836a7.264 7.264 0 0 1 6.143 3.387A7.22 7.22 0 0 1 17.1 6h1.508L17.46 4.853a1 1 0 1 1 1.415-1.414l2.828 2.828a.996.996 0 0 1 .282.562a1.006 1.006 0 0 1-.437 1.008z" fill="#c1c1c1"/></svg></span>
+				<i id="back" class="fas fa-2x fa-backward"></i>
+				<i id="masterplay"class="far fa-3x fa-play-circle"></i>
+				<i id="forward" class="fas fa-2x fa-forward"></i>
+				<span id="repeat"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path d="M2.784 2.088l.07.058l11 11a.5.5 0 0 1-.638.765l-.07-.058l-2.016-2.015a3.989 3.989 0 0 1-.896.155L10 12l-3.293-.001l1.148 1.149a.5.5 0 0 1 .058.638l-.058.069a.5.5 0 0 1-.638.058l-.069-.058l-2.002-2.002a.5.5 0 0 1-.057-.638l.057-.069l2.002-2.002a.5.5 0 0 1 .765.638l-.058.07l-1.148 1.147H10c.094 0 .187-.004.279-.012L4.626 5.332a3 3 0 0 0-.765 4.772a.5.5 0 0 1-.714.698a3.997 3.997 0 0 1 .746-6.203L2.146 2.853a.5.5 0 0 1 .638-.765zm9.716 2.96c.123 0 .235.045.322.118l.072.072A3.987 3.987 0 0 1 14 8a3.987 3.987 0 0 1-1.12 2.775l-.706-.708A2.99 2.99 0 0 0 13 8a2.99 2.99 0 0 0-.866-2.109a.5.5 0 0 1 .366-.843zM8.146 2.145a.5.5 0 0 1 .638-.057l.07.057l2.001 2.002l.058.07a.5.5 0 0 1 0 .568l-.058.07L8.907 6.8L8.2 6.093l1.094-1.094H7.105l-1-1h3.189L8.146 2.852l-.057-.07a.5.5 0 0 1 .057-.638z" fill="#c1c1c1"/></svg></span> 
+			</ul> 
+			<ul class="progressbar">
+				<li class="curtime" id="cur"></li>
+				<input type="range" name="range" min="0" max="100" value="0" id="myprogressbar">
+				<li class="fulltime" id="full"></li> 
+			</ul>	
+	</div>
+
+	<div class="volume">
+		<svg  id="gif"  xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.5em" height="1.5em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="none"><path d="M1 4.5A2.5 2.5 0 0 1 3.5 2h9A2.5 2.5 0 0 1 15 4.5v7a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 11.5v-7zm4.052 2.206c.481-.05.853.036.986.103a.5.5 0 1 0 .447-.894c-.351-.176-.928-.267-1.537-.203c-.96.1-1.948.934-1.948 2.297c0 1.385 1.054 2.3 2.3 2.3c.58 0 1.1-.273 1.397-.553c.262-.248.303-.578.303-.783v-.964a.5.5 0 0 0-.5-.5h-.807a.5.5 0 0 0 0 1H6v.463a.426.426 0 0 1-.006.072a1.126 1.126 0 0 1-.694.264c-.731 0-1.3-.504-1.3-1.3c0-.817.567-1.251 1.052-1.302zM9 6.21a.5.5 0 0 0-1 0v3.6a.5.5 0 0 0 1 0v-3.6zm1.5-.5a.5.5 0 0 0-.5.5v3.6a.5.5 0 0 0 1 0V8.505l1.003-.006a.5.5 0 0 0-.006-1L11 7.506v-.797h1.5a.5.5 0 0 0 0-1h-2z" fill="#bababa"/></g></svg>
+		<div class="volume_bar">
+			<i id="myvolumclick" class="fas fa-volume-up"></i>
+			<input id="myvolumebar" type="range" min="0" max="10" value="10">	
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+	const module = {};
+</script>
+<script type="module" src="./static/js/player.js"></script>
+<script type="module" src="./static/js/module.js"></script>
+<script src="./static/js/suggestion.js"></script>
+
+</body>
+</html>
